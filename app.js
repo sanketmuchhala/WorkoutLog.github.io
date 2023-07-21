@@ -1,7 +1,7 @@
 let workoutList = [];
 
-let ctx = document.getElementById('calorieChart').getContext('2d');
-let calorieChart = new Chart(ctx, {
+let ctx1 = document.getElementById('calorieChart').getContext('2d');
+let calorieChart = new Chart(ctx1, {
     type: 'line',
     data: {
         labels: [],
@@ -17,6 +17,37 @@ let calorieChart = new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true
+            }
+        }
+    }
+});
+
+let ctx2 = document.getElementById('scatterPlot').getContext('2d');
+let scatterPlot = new Chart(ctx2, {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Duration vs Calories',
+            data: [],
+            backgroundColor: 'rgba(75, 192, 192, 0.6)'
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom',
+                title: {
+                    display: true,
+                    text: 'Duration (minutes)'
+                }
+            },
+            y: {
+                type: 'linear',
+                title: {
+                    display: true,
+                    text: 'Calories Burned'
+                }
             }
         }
     }
@@ -46,6 +77,9 @@ document.getElementById('workout-form').addEventListener('submit', function(e) {
     calorieChart.data.labels.push(workout);
     calorieChart.data.datasets[0].data.push(calories);
     calorieChart.update();
+
+    scatterPlot.data.datasets[0].data.push({x: duration, y: calories});
+    scatterPlot.update();
 
     e.target.reset();
 });
